@@ -4,6 +4,8 @@ import { Filter, Grid3X3, LayoutList, TrendingUp, Award, Users, Briefcase } from
 import HeroSection from '../components/HeroSection';
 import ProjectCard from '../components/ProjectCard';
 import FilterSidebar from '../components/FilterSidebar';
+import LeadCollectionForm from '../components/LeadCollectionForm';
+import LiveVisitorCounter from '../components/LiveVisitorCounter';
 import { projects, Project } from '../data/projects';
 
 export default function HomePage() {
@@ -56,6 +58,10 @@ export default function HomePage() {
                 </div>
               </div>
             ))}
+          </div>
+          {/* Live Visitor Counter */}
+          <div className="mt-4">
+            <LiveVisitorCounter />
           </div>
         </div>
       </section>
@@ -151,6 +157,53 @@ export default function HomePage() {
                 <p className="text-sm text-text-muted">Try adjusting your filters or search query</p>
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* Lead Collection Section */}
+      <section className="bg-warm-gray border-t border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+            <div>
+              <h2 className="text-2xl md:text-3xl font-bold text-text-primary mb-4">
+                Let's Discuss Your Project
+              </h2>
+              <p className="text-sm text-text-muted leading-relaxed mb-6">
+                Whether you need power engineering solutions, telecom infrastructure, or industrial projects, 
+                our team of experienced engineers is ready to help. Leave your details and we'll get back to you within 24 hours.
+              </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-olive/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Award size={20} className="text-olive" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-text-primary text-sm">Expert Consultation</h4>
+                    <p className="text-xs text-text-muted">Free initial consultation with our senior engineers</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-olive/10 rounded-lg flex items-center justify-center shrink-0">
+                    <TrendingUp size={20} className="text-olive" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-text-primary text-sm">Custom Solutions</h4>
+                    <p className="text-xs text-text-muted">Tailored engineering solutions for your specific needs</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 bg-olive/10 rounded-lg flex items-center justify-center shrink-0">
+                    <Briefcase size={20} className="text-olive" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-text-primary text-sm">Nationwide Service</h4>
+                    <p className="text-xs text-text-muted">We work across Bangladesh, including remote areas</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <LeadCollectionForm />
           </div>
         </div>
       </section>

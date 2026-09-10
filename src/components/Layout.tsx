@@ -25,7 +25,7 @@ export default function Layout({ children }: LayoutProps) {
     { path: '/', label: 'Home' },
     { path: '/projects', label: 'Projects' },
     { path: '/about', label: 'About Us' },
-    { path: '/admin', label: 'Admin Panel' },
+    { path: '/login', label: 'Admin Login' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
