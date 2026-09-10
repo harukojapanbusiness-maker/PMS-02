@@ -128,6 +128,16 @@ export default function LoginPage() {
                 <span className="text-text-muted font-mono">admin / PMS@Admin2025</span>
               </div>
             </div>
+            <button
+              onClick={() => {
+                localStorage.clear();
+                sessionStorage.clear();
+                window.location.reload();
+              }}
+              className="w-full mt-4 bg-red-50 hover:bg-red-100 text-red-600 py-2 rounded-lg text-xs font-medium transition-all"
+            >
+              Clear All Data & Reload
+            </button>
           </div>
         </div>
       </div>

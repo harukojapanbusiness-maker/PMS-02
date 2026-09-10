@@ -31,20 +31,61 @@ import { useVisitor } from '../contexts/VisitorContext';
 
 export default function AdminPanel() {
   const navigate = useNavigate();
-  const { user, logout, isAuthenticated } = useAuth();
+  const { user, logout, isAuthenticated, clearAllData } = useAuth();
   const { visitors, leads, totalVisitors, activeVisitors, updateLeadStatus, deleteLead } = useVisitor();
   const [activeTab, setActiveTab] = useState<'dashboard' | 'projects' | 'banners' | 'leads' | 'visitors' | 'instructions'>('dashboard');
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [loading, setLoading] = useState(true);
 
-  // Redirect to login if not authenticated
+  // Check authentication on mount
   useEffect(() => {
-    if (!isAuthenticated) {
-      navigate('/login');
-    }
+    const timer = setTimeout(() => {
+      if (!isAuthenticated) {
+        navigate('/login');
+      }
+      setLoading(false);
+    }, 100);
+    return () => clearTimeout(timer);
   }, [isAuthenticated, navigate]);
 
+  // Show loading while checking auth
+  if (loading) {
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="w-12 h-12 border-4 border-olive/30 border-t-olive rounded-full animate-spin mx-auto mb-4" />
+        <p className="text-text-muted">Loading admin dashboard...</p>
+      </div>
+    );
+  }
+
+  // Redirect if not authenticated
   if (!isAuthenticated || !user) {
-    return null;
+    return (
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+        <div className="bg-white rounded-xl border border-border-light p-8 max-w-md mx-auto">
+          <div className="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <AlertCircle size={32} className="text-red-600" />
+          </div>
+          <h2 className="text-xl font-bold text-text-primary mb-2">Access Denied</h2>
+          <p className="text-sm text-text-muted mb-6">You need to login to access the admin panel.</p>
+          <button
+            onClick={() => navigate('/login')}
+            className="w-full bg-olive hover:bg-olive-dark text-white py-3 rounded-lg font-semibold text-sm transition-all"
+          >
+            Go to Login
+          </button>
+          <button
+            onClick={() => {
+              localStorage.clear();
+              window.location.reload();
+            }}
+            className="w-full mt-3 bg-warm-gray hover:bg-border text-text-secondary py-3 rounded-lg font-semibold text-sm transition-all"
+          >
+            Clear Session & Reload
+          </button>
+        </div>
+      </div>
+    );
   }
 
   const showNotification = (type: 'success' | 'error', message: string) => {
@@ -77,13 +118,23 @@ export default function AdminPanel() {
             </p>
           </div>
         </div>
-        <button
-          onClick={handleLogout}
-          className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
-        >
-          <LogOut size={16} />
-          Logout
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={clearAllData}
+            className="flex items-center gap-2 px-4 py-2 bg-amber-50 text-amber-600 rounded-lg text-sm font-medium hover:bg-amber-100 transition-colors"
+            title="Clear all data and reload"
+          >
+            <AlertCircle size={16} />
+            Reset
+          </button>
+          <button
+            onClick={handleLogout}
+            className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 rounded-lg text-sm font-medium hover:bg-red-100 transition-colors"
+          >
+            <LogOut size={16} />
+            Logout
+          </button>
+        </div>
       </div>
 
       {/* Notification */}

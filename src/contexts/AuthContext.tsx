@@ -10,6 +10,7 @@ interface AuthContextType {
   login: (username: string, password: string) => boolean;
   logout: () => void;
   isAuthenticated: boolean;
+  clearAllData: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -55,8 +56,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.removeItem('pms_user');
   };
 
+  const clearAllData = () => {
+    setUser(null);
+    localStorage.clear();
+    sessionStorage.clear();
+    window.location.reload();
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider value={{ user, login, logout, isAuthenticated: !!user, clearAllData }}>
       {children}
     </AuthContext.Provider>
   );
